@@ -1,5 +1,5 @@
 <template>
-    главная
+    1 
 </template>
 
 <script setup>
