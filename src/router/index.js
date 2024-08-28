@@ -2,6 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import MainView from "@/views/MainView.vue";
 
 const router = createRouter({
+  scrollBehavior(to) {
+    if (to.hash) return { el: to.hash, behavior: 'smooth' };
+    return { top: 0, behavior: 'smooth' };
+  },
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
