@@ -1,8 +1,6 @@
 <template>
     <HeaderComponent />
     <RouterView />
-
-    <OrderComponent />
 </template>
 
 <script setup>
