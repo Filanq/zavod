@@ -38,7 +38,7 @@
     --colorMain: #637eff;
     --colorMainLight: #148cfc;
     --colorWhite: #ffffff;
-    --colorGrey: #fbfbfb;
+    --colorGrey: #f6f6f6;
     --colorDark: #273266;
     --colorBlack: #232323;
     --borderRadiusSmall: 5px;
@@ -124,6 +124,7 @@ header{
     border: none;
     border-radius: var(--borderRadius);
     transition: background-color .5s ease, filter .5s ease, color .5s ease, background-position .5s ease;
+    transition-property: background-position, opacity, transform, color, background-color !important;
     text-align: center;
     display: grid;
     justify-content: center;
@@ -135,7 +136,6 @@ header{
 }
 .btn-main:hover, .btn-main:focus-visible{
     background-position: bottom right;
-    background-color: var(--colorMain);
 }
 .btn-main-light:hover, .btn-main-light:focus-visible{
     background-position: bottom left;
@@ -196,6 +196,9 @@ header{
 }
 .color-black{
     color: var(--colorBlack);
+}
+.color-dark{
+    color: var(--colorDark);
 }
 .color-red{
     color: red;

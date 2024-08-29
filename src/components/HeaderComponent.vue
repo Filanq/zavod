@@ -9,6 +9,7 @@
                     <router-link to="/" class="link menu__link w-600">Главная</router-link>
                     <router-link to="/order" class="link menu__link w-600">Заказ</router-link>
                     <router-link to="/#reviews" class="link menu__link w-600">Отзывы</router-link>
+                    <router-link v-if="user.user_data.is_auth" to="/admin" class="link menu__link w-600">Админ панель</router-link>
                 </nav>
                 <nav class="grid menu__nav grid-row jc-sb gap-25 ai-c">
                     <router-link to="/register" class="link menu__link w-600">Регистрация</router-link>
@@ -21,6 +22,9 @@
 
 <script setup>
     import { RouterLink } from "vue-router";
+    import {useUserStore} from "@/stores/UserStore.js";
+
+    let user = useUserStore();
 </script>
 
 <style scoped>
