@@ -70,7 +70,7 @@
 
 <style scoped>
     .order__inner{
-        grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     }
     .order-card__img{
         width: 100%;
@@ -86,5 +86,15 @@
         border-radius: var(--borderRadius);
         background-color: var(--colorWhite);
         cursor: pointer;
+    }
+    @media(max-width: 1024px){
+        .order__inner{
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+    }
+    @media(max-width: 576px){
+        .order__inner{
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
     }
 </style>

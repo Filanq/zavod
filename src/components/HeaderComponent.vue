@@ -1,7 +1,7 @@
 <template>
     <header>
         <section class="section menu__section">
-            <div class="container menu__container grid-row jc-sb">
+            <div class="container menu__container grid-row jc-sb ai-c">
                 <router-link to="/" class="link menu__logo">
                     <img src="@/assets/img/logo/logo.png" alt="Деловая Клякса" class="menu__logo_img">
                 </router-link>
@@ -9,7 +9,7 @@
                     <router-link to="/" class="link menu__link w-600">Главная</router-link>
                     <router-link to="/order" class="link menu__link w-600">Заказ</router-link>
                     <router-link to="/#reviews" class="link menu__link w-600">Отзывы</router-link>
-                    <router-link v-if="user.user_data.is_admin" to="/admin" class="link menu__link w-600">Админ панель</router-link>
+                    <router-link v-if="user.user_data.is_admin && user.user_data.is_auth" to="/admin" class="link menu__link w-600">Админ панель</router-link>
                     <router-link v-if="user.user_data.is_auth" to="/profile" class="link menu__link w-600">Профиль</router-link>
                 </nav>
                 <nav class="grid menu__nav grid-row jc-sb gap-25 ai-c">
@@ -42,6 +42,7 @@
     import { RouterLink } from "vue-router";
     import {useUserStore} from "@/stores/UserStore.js";
     import {onMounted, ref} from "vue";
+    import router from "@/router/index.js";
 
     let user = useUserStore();
 
@@ -50,6 +51,7 @@
     const logout = () => {
         user.deleteCookie('token');
         user.logout();
+        router.push('/').then(()=>{router.forward()});
     };
 </script>
 

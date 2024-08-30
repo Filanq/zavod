@@ -34,7 +34,7 @@
     let user = useUserStore();
 
     const loginUser = () => {
-        axios.post('http://localhost:3000/api/login', {
+        axios.post(window.origin + '/api/login', {
             email: data.email.value,
             password: data.password.value,
         }).then(async res => {

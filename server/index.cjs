@@ -15,13 +15,13 @@ const fs = require('fs');
 const sessionStore = new MySQLStore({}, sql);
 
 const corsOption = {
-    origin: ['http://localhost:5174'],
+    origin: ['http://62.217.181.80:3000/'],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
 }
 
 const upload = multer({
-    dest: path.join(__dirname, "../public")
+    dest: path.join(__dirname, "../dist/img/files")
     // you might also want to set some limits: https://github.com/expressjs/multer#limits
 });
 
@@ -165,8 +165,8 @@ app.post("/api/order", upload.single("file"), function(req, res){
     let cost = req.body.cost.trim();
     let address = req.body.address.trim();
     let type = req.body.type.trim();
-    let date = new Date(Date.now());
-    let date_str = date.getFullYear() + '-' + (String(date.getMonth() + 1).length > 1 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1)) + '-' + (String(date.getDay()).length > 1 ? date.getDay() : '0' + date.getDay());
+    let date = new Date();
+    let date_str = date.getFullYear() + '-' + (String(date.getMonth() + 1).length > 1 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1)) + '-' + (String(date.getDate()).length > 1 ? date.getDate() : '0' + date.getDate());
     let time = (String(date.getHours()).length > 1 ? date.getHours() : '0' + date.getHours()) + ':' + (String(date.getMinutes()).length > 1 ? date.getMinutes() : '0' + date.getMinutes()) + ':' + (String(date.getSeconds()).length > 1 ? date.getSeconds() : '0' + date.getSeconds());
     let token = req.body.token;
     let name = '';
@@ -236,7 +236,6 @@ app.get("/api/order/:id", function(req, res){
 });
 app.get("/api/order", function(req, res){
     let orders = sql_query("SELECT * FROM orders", [], (resp)=>{
-        console.log(resp[0].date_end);
         return res.json({'orders': resp});
     });
 });
@@ -256,6 +255,17 @@ app.patch("/api/order/:id", function(req, res){
     let id = req.params.id;
     let orders = sql_query("UPDATE orders SET status = ? WHERE id = ?", ['Выполнено', id], (resp)=>{
         return res.json({'success': true});
+    });
+});
+app.get('/*', (req, res) => {
+    console.log(path.join(__dirname + '/../dist/'));
+    fs.exists(path.join(__dirname + '/../dist/') + req.url, (e) => {
+        if(e){
+            res.sendFile(req.url, {root: __dirname + '/../dist'});
+        }
+        else{
+            res.sendFile('index.html', {root: __dirname + '/../dist'});
+        }
     });
 });
 

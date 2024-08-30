@@ -71,15 +71,15 @@
                 <div data-aos="fade-up" class="data__inner grid width-100 jc-sb gap-10 ai-c mb-50">
                     <div class="data__card grid grid-column gap-10 ji-c ai-c">
                         <span class="h3 txt-gradient-2 w-700">{{ counters[0].current }}+</span>
-                        <span>Заказов в месяц</span>
+                        <span class="ta-c">Заказов в месяц</span>
                     </div>
                     <div class="data__card grid grid-column gap-10 ji-c ai-c">
                         <span class="h3 txt-gradient-2 w-700">{{ counters[1].current }}%</span>
-                        <span>Довольный клиентов</span>
+                        <span class="ta-c">Довольный клиентов</span>
                     </div>
                     <div class="data__card grid grid-column gap-10 ji-c ai-c">
                         <span class="h3 txt-gradient-2 w-700">{{ counters[2].current }}%</span>
-                        <span>Компетентные сотрудники</span>
+                        <span class="ta-c">Компетентные сотрудники</span>
                     </div>
                 </div>
                 <a data-aos="fade-up" href="#reviews" class="btn-main btn-long">Отзывы</a>
@@ -88,7 +88,7 @@
 
         <section id="reviews" class="section reviews__section">
             <div class="container reviews__container gap-50">
-                <div class="grid grid-row gap-25 ai-e jc-sb width-100 js-s">
+                <div class="grid grid-row gap-25 reviews__inner_header ai-e jc-sb width-100 js-s">
                     <h2 data-aos="fade-right" class="h2 reviews__title w-700">
                         <span class="txt-gradient font-inherit w-inherit">Отзывы</span><br>
                         наших клиентов
@@ -338,6 +338,36 @@
         }
         .marque__wrapper{
             animation-duration: 10s;
+        }
+    }
+    @media(max-width: 768px){
+        .banner__container{
+            grid-template-columns: 100% 0;
+        }
+        .marque__logo:nth-child(n + 3){
+            display: none;
+        }
+        .marque__wrapper{
+            animation-duration: 10s;
+        }
+        .marque__logo{
+            padding: 10px;
+            width: 200px;
+        }
+        .banner__text span{
+            text-shadow: var(--colorWhite) 1px 1px 1px, var(--colorWhite) 0 0 10px;
+        }
+        .reviews__inner_header{
+            grid-template-columns: 2fr 1fr;
+        }
+        .reviews__inner_header .btn-main{
+            padding: 10px 15px;
+        }
+        .btn-long{
+            padding: 10px 25px;
+        }
+        .banner__section{
+            background-size: 12 0%;
         }
     }
 </style>

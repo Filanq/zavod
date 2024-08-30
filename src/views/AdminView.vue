@@ -6,7 +6,7 @@
             </h2>
             <div v-for="(order, index) in orders" :class="{'admin__inner_red': order.status === 'Отклонено', 'admin__inner_yellow': order.status === 'На рассмотрении', 'admin__inner_green': order.status === 'Выполнено'}" class="admin__inner grid grid-column ji-s ac-s gap-50 width-100" data-aos="fade-up">
                 <div class="admin__card grid grid-row gap-25 ai-c jc-sb width-100">
-                    <div class="grid grid-row gap-25 jc-s ai-e">
+                    <div class="admin-card__first grid grid-row gap-25 jc-s ai-e">
                         <div class="admin-card__column grid grid-column gap-25 ac-s ji-s">
                             <h3 class="h4 w-600 admin-card__title">Заказ #00{{ index + 1 }}</h3>
                             <div class="admin-card__text w-200 grid grid-column gap-10">
@@ -19,7 +19,7 @@
                                 <span class="admin-card__txt2 w-400">{{ order.date.split('T')[0] }}</span>
                             </span>
                                 <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h6">Дата окончания:</span>
+                                <span class="w-600 h6">Дата заверш.:</span>
                                 <span class="admin-card__txt2 w-400">{{ order.date_end ? order.date_end.split('T')[0] : '__.__.____' }}</span>
                             </span>
                                 <span class="grid grid-row gap-10 jc-s ai-c">
@@ -28,7 +28,7 @@
                             </span>
                                 <span class="grid grid-row gap-10 jc-s ai-c">
                                 <span class="w-600 h5">Стоимость:</span>
-                                <span class="admin-card__txt2 w-600 h6 color-dark">{{ order.cost }}</span>
+                                <span class="admin-card__txt2 w-600 h6 color-dark">{{ order.cost }}Р.</span>
                             </span>
                             </div>
                         </div>
@@ -104,7 +104,7 @@
     const update = () => {
         let i = 0
 
-        axios.get('http://localhost:3000/api/order/').then(res => {
+        axios.get(window.origin + '/api/order/').then(res => {
             orders.value = res.data['orders'];
             orders.value.forEach(order => {
                 let now = 0;
@@ -115,9 +115,9 @@
                     now = 0;
                 }
                 else if(order.date_end){
-                    console.log(new Date(order.date));
                     let full = 100 / ((new Date(order.date_end) - new Date(order.date)) / 1000 / 60 / 60);
-                    now = String(Math.abs(full * ((new Date(order.date_end) - new Date()) / 1000 / 60 / 60) - 100)).split('.')[0];
+                    now = Math.ceil(Math.abs(full * ((new Date(order.date_end) - new Date()) / 1000 / 60 / 60) - 100));
+                    console.log(now);
                     if(now > 100) now = 100;
                     if(now < 0) now = 0;
                 }
@@ -140,7 +140,7 @@
         acceptId.value = id;
     };
     const deleteOrder = (id) => {
-        axios.delete("http://localhost:3000/api/order/" + id).then(res=>{
+        axios.delete(window.origin + "/api/order/" + id).then(res=>{
             update();
         });
     }
@@ -149,7 +149,7 @@
         document.body.style.overflowY = '';
     };
 
-    axios.get('http://localhost:3000/api/order/').then(res => {
+    axios.get(window.origin + '/api/order/').then(res => {
         orders.value = res.data['orders'];
         orders.value.forEach(order => {
             console.log(order.date_end);
@@ -163,7 +163,7 @@
             else if(order.date_end){
                 console.log(new Date(order.date));
                 let full = 100 / ((new Date(order.date_end) - new Date(order.date)) / 1000 / 60 / 60);
-                now = String(Math.abs(full * ((new Date(order.date_end) - new Date()) / 1000 / 60 / 60) - 100)).split('.')[0];
+                now = Math.ceil(Math.abs(full * ((new Date(order.date_end) - new Date()) / 1000 / 60 / 60) - 100));
                 if(now > 100) now = 100;
                 if(now < 0) now = 0;
             }
@@ -437,4 +437,60 @@
     .progress-circle.p98 .value-bar { transform: rotate(353deg); }
     .progress-circle.p99 .value-bar { transform: rotate(356deg); }
     .progress-circle.p100 .value-bar { transform: rotate(360deg); }
+
+    @media(max-width: 1280px){
+        .admin__card{
+            width: 100%;
+            justify-content: center;
+            justify-items: center;
+            grid-auto-flow: row !important;
+        }
+        .admin-card__column{
+            justify-self: start;
+        }
+        .admin-card__first{
+            width: 100%;
+            justify-content: space-between;
+        }
+        .progress-circle span{
+            left: 5px;
+            top: 5px;
+        }
+    }
+    @media (max-width: 1024px){
+
+        .left-half-clipper {
+            left: 10px;
+            top: 10px;
+            transform: scale(1.25);
+        }
+        .admin-card__first {
+            grid-auto-flow: row;
+            justify-items: center;
+            justify-content: center;
+        }
+        .admin-card__column:last-child {
+            justify-self: start;
+        }
+        .admin-card__text{
+            justify-self: start;
+            margin: 0;
+        }
+        .progress-circle span{
+            left: 10px;
+            top: 10px;
+        }
+    }
+    @media (max-width: 576px){
+        .admin-card__first {
+            grid-auto-flow: row;
+            justify-items: center;
+        }
+        .admin-card__column:last-child {
+            justify-self: start;
+        }
+        .admin-card__text{
+            margin: 0;
+        }
+    }
 </style>

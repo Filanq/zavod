@@ -1,6 +1,6 @@
 <template>
     <section class="section order-item__section ">
-        <iframe src="https://yandex.ru/map-widget/v1/?lang=ru_RU&amp;scroll=true&amp;source=constructor-api&amp;um=constructor%3A35de66029325a0e22a48b8100d0c5c40d8e90b450093d5ff7e8d3414afe360a9" frameborder="0" allowfullscreen="true" width="100%" height="100%" style="display: block;"></iframe>
+        <iframe class="order-item__maps" src="https://yandex.ru/map-widget/v1/?lang=ru_RU&amp;scroll=true&amp;source=constructor-api&amp;um=constructor%3A35de66029325a0e22a48b8100d0c5c40d8e90b450093d5ff7e8d3414afe360a9" frameborder="0" allowfullscreen="true" width="100%" height="100%" style="display: block;"></iframe>
         <div class="container order-item__container ac-c">
             <form @submit.prevent="sendOrder()" class="form order-item__form gap-10">
                 <span @click="emits('close')" class="h3 modal__close">&cross;</span>
@@ -66,7 +66,7 @@
     let user = useUserStore();
 
     const sendOrder = () => {
-        axios.post('http://localhost:3000/api/order', {
+        axios.post(window.origin + '/api/order', {
             count: data.count.value,
             tel: data.tel.value,
             tg: data.tg.value,
@@ -191,7 +191,7 @@
 
     .form-upload__input::file-selector-button{
         display: grid;
-        height: 200px;
+        height: 100px;
         min-height: 100px;
         margin-bottom: 25px;
         color: black;
@@ -205,6 +205,7 @@
         justify-self: center;
         position: relative;
         cursor: pointer;
+        background-color: var(--colorGrey);
         transition: background-color .3s ease, color .3s ease;
     }
     .form-upload__input._active::file-selector-button{
@@ -295,5 +296,19 @@
     .upload-loader__image {
         width: 150px;
         height: 150px;
+    }
+    @media (max-width: 1024px){
+        .order-item__section{
+            grid-template-columns: 1fr;
+        }
+        .order-item__maps{
+            height: 30vh;
+        }
+        .order-item__container{
+            height: auto;
+            overflow: scroll;
+            padding: 20px;
+            align-content: unset;
+        }
     }
 </style>
