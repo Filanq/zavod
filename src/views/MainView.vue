@@ -1,33 +1,4 @@
 <template>
-<!-- <section class="w-full py-10 grid justify-items-center items-center z-20 relative overflow-hidden">-->
-<!--    <div class="flex flex-col md:flex-row w-full px-10">-->
-<!--      <div class="w-full md:w-1/2  bg-white flex items-center justify-center">-->
-<!--        <img class="p-5 md:p-10" src="@/assets/img/page-main/ikn2.jpg" alt="Изображение" />-->
-<!--      </div>-->
-<!--      <div class="w-full md:w-1/2 bg-white p-10 flex flex-col justify-center">-->
-<!--        <h2 class="text-4xl md:text-6xl mb-5">Лучшие чернила в Кляксе!!!</h2>-->
-<!--        <p class="mb-5 text-gray-700 text-sm">-->
-<!--         В компании "Клякса" мы гордимся тем, что предлагаем только лучшие чернила. Наша продукция отличается высоким качеством, насыщенными цветами и отличной стойкостью на бумаге. Чернила "Клякса" идеально подходят для рисования, письма и каллиграфии, позволяя вам создавать настоящие шедевры.-->
-<!--        </p>-->
-<!--        <button class="w-min bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">-->
-<!--          Подробнее-->
-<!--        </button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </section>-->
-
-<!--   <section class="w-full py-10 grid justify-items-center items-center z-20 relative overflow-hidden">-->
-<!--    <div class="w-full">-->
-<!--      <h2 class="text-4xl md:text-6xl flex justify-center mb-6">Best Product</h2>-->
-<!--    </div>-->
-<!--    <div class="w-full p-5 md:px-20 md:py-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">-->
-<!--      <div v-for="product in products" :key="product.id" class="bg-white border border-gray-300 rounded-md shadow-lg flex flex-col justify-center p-5">-->
-<!--        <img :src="product.icon" alt="Icon" class="h-12 w-12 mb-2" />-->
-<!--        <h3 class="font-semibold text-lg mb-2">{{ product.title }}</h3>-->
-<!--        <p class="text-gray-600 text-sm">{{ product.description }}</p>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </section>-->
     <main>
         <section class="section banner__section">
             <div class="container banner__container gap-25">
@@ -55,7 +26,7 @@
                             <span>Оперативное изготовление и доставка до двери.</span>
                         </span>
                     </p>
-                    <button data-aos="fade-right" class="btn-main btn-long">Заказ</button>
+                    <router-link to="/order" data-aos="fade-right" class="btn-main btn-long">Заказ</router-link>
                 </div>
                 <div class="banner__inner banner__inner_img grid grid-column gap-25 ji-s ac-c"></div>
             </div>
@@ -130,6 +101,20 @@
                 <swiper
                     data-aos="fade-up"
                     :slides-per-view="3"
+                    :breakpoints="{
+                      '320': {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                      },
+                      '768': {
+                        slidesPerView: 2,
+                        spaceBetween: 40,
+                      },
+                      '1480': {
+                        slidesPerView: 3,
+                        spaceBetween: 50,
+                      },
+                    }"
                     :space-between="50"
                     :modules="[Navigation, Pagination]"
                     :pagination="{clickable: true}"
@@ -179,7 +164,7 @@
             <div class="container order__container">
                 <div class="order__wrapper grid grid-column gap-25 ji-c ac-c">
                     <h2 class="order__title h2 color-white w-700 ta-c">Делай заказ прямо сейчас!</h2>
-                    <a class="btn-long btn-white">Заказать печать</a>
+                    <router-link to="/order" class="btn-long btn-white">Заказать печать</router-link>
                 </div>
             </div>
         </section>
@@ -285,11 +270,11 @@
         top: 0;
         grid-template-columns: 1fr 1fr;
         animation: marque 30s linear infinite;
+        background-color: var(--colorWhite);
     }
     .marque__logo{
         width: 350px;
         padding: 20px 50px;
-        background-color: var(--colorWhite);
         border-radius: var(--borderRadius);
     }
     /* Data */
@@ -334,5 +319,25 @@
         background-size: cover;
         width: 100%;
         height: 50vh;
+    }
+    /* Media */
+    @media(max-width: 1480px){
+        .marque__logo:nth-child(n + 4){
+            display: none;
+        }
+        .marque__wrapper{
+            animation-duration: 15s;
+        }
+    }
+    @media(max-width: 1024px){
+        .banner__container{
+            grid-template-columns: 2fr 1fr;
+        }
+        .marque__logo:nth-child(n + 3){
+            display: none;
+        }
+        .marque__wrapper{
+            animation-duration: 10s;
+        }
     }
 </style>

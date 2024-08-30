@@ -4,27 +4,31 @@
             <h2 class="h2 admin__title js-s w-700">
                 Управление заказами
             </h2>
-            <div class="admin__inner grid grid-column ji-s ac-s gap-50 width-100" data-aos="fade-up">
+            <div v-for="(order, index) in orders" :class="{'admin__inner_red': order.status === 'Отклонено', 'admin__inner_yellow': order.status === 'На рассмотрении', 'admin__inner_green': order.status === 'Выполнено'}" class="admin__inner grid grid-column ji-s ac-s gap-50 width-100" data-aos="fade-up">
                 <div class="admin__card grid grid-row gap-25 ai-c jc-sb width-100">
                     <div class="grid grid-row gap-25 jc-s ai-e">
                         <div class="admin-card__column grid grid-column gap-25 ac-s ji-s">
-                            <h3 class="h4 w-600 admin-card__title">Заказ #001</h3>
+                            <h3 class="h4 w-600 admin-card__title">Заказ #00{{ index + 1 }}</h3>
                             <div class="admin-card__text w-200 grid grid-column gap-10">
                             <span class="grid grid-row gap-10 jc-s ai-c">
                                 <span class="w-600 h6">Тип:</span>
-                                <span class="admin-card__txt2 w-400">A4</span>
+                                <span class="admin-card__txt2 w-400">{{ order.title }}</span>
                             </span>
-                            <span class="grid grid-row gap-10 jc-s ai-c">
+                                <span class="grid grid-row gap-10 jc-s ai-c">
                                 <span class="w-600 h6">Дата:</span>
-                                <span class="admin-card__txt2 w-400">29.08.2024</span>
+                                <span class="admin-card__txt2 w-400">{{ order.date.split('T')[0] }}</span>
                             </span>
-                            <span class="grid grid-row gap-10 jc-s ai-c">
+                                <span class="grid grid-row gap-10 jc-s ai-c">
                                 <span class="w-600 h6">Дата окончания:</span>
-                                <span class="admin-card__txt2 w-400">__.__.____</span>
+                                <span class="admin-card__txt2 w-400">{{ order.date_end ? order.date_end.split('T')[0] : '__.__.____' }}</span>
                             </span>
-                            <span class="grid grid-row gap-10 jc-s ai-c">
+                                <span class="grid grid-row gap-10 jc-s ai-c">
+                                <span class="w-600 h6">Адрес:</span>
+                                <span class="admin-card__txt2 w-400">{{ order.address }}</span>
+                            </span>
+                                <span class="grid grid-row gap-10 jc-s ai-c">
                                 <span class="w-600 h5">Стоимость:</span>
-                                <span class="admin-card__txt2 w-600 h6 color-dark">2000</span>
+                                <span class="admin-card__txt2 w-600 h6 color-dark">{{ order.cost }}</span>
                             </span>
                             </div>
                         </div>
@@ -32,169 +36,36 @@
                             <div class="admin-card__text w-200 grid grid-column gap-10">
                             <span class="grid grid-row gap-10 jc-s ai-c">
                                 <span class="w-600 h6">Кол-во:</span>
-                                <span class="admin-card__txt2 w-400">2000</span>
+                                <span class="admin-card__txt2 w-400">{{ order.count }}</span>
                             </span>
-                            <span class="grid grid-row gap-10 jc-s ai-c">
+                                <span class="grid grid-row gap-10 jc-s ai-c">
                                 <span class="w-600 h6">Файл:</span>
-                                <a href="#" class="admin-card__txt2 w-400">asdas.pdf</a>
+                                <a :href="order.path" target="_blank" class="admin-card__txt2 w-400">{{ order.path.split(`\\`)[order.path.split(`\\`).length - 1] }}</a>
                             </span>
-                            <span class="grid grid-row gap-10 jc-s ai-c">
+                                <span class="grid grid-row gap-10 jc-s ai-c">
                                 <span class="w-600 h6">Контакт:</span>
-                                <span class="admin-card__txt2 w-400">Имя +7 (999) 999 99-99</span>
+                                <span class="admin-card__txt2 w-400">{{ order.contact }}</span>
                             </span> <span class="grid grid-row gap-10 jc-s ai-c">
                                 <span class="w-600 h6">TG:</span>
-                                <span class="admin-card__txt2 w-400">@username</span>
+                                <span class="admin-card__txt2 w-400">{{ order.tg }}</span>
                             </span>
-                            <span class="grid grid-row gap-10 jc-s ai-c">
+                                <span class="grid grid-row gap-10 jc-s ai-c">
                                 <span class="w-600 h5 txt-gradient">Статус:</span>
-                                <span class="admin-card__txt2 w-600 h6 ">В процессе</span>
+                                <span class="admin-card__txt2 w-600 h6 ">{{ order.status }}</span>
                             </span>
                             </div>
                         </div>
                         <div class="admin-card__column grid grid-column gap-25 ac-s ji-s">
                             <div class="admin-card__text w-200 grid grid-column gap-10">
-                                <button class="btn-main">Принять</button>
-                                <button class="btn-white">Отклонить</button>
+                                <button @click="openAcceptWindow(order.id)" class="btn-main">{{ order.status !== 'Отклонено' ? 'Назначить дату' : 'Возобновить' }}</button>
+                                <button v-if="order.status !== 'Отклонено'" @click="deleteOrder(order.id)" class="btn-white">Отклонить</button>
                             </div>
                         </div>
                     </div>
 
                     <div class="admin-card__column grid grid-column gap-25 ac-s ji-s js-e">
-                        <div class="progress-circle admin-card__progress admin p60 over50">
-                            <span>60%</span>
-                            <div class="left-half-clipper">
-                                <div class="first50-bar"></div>
-                                <div class="value-bar"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="admin__inner admin__inner_yellow grid grid-column ji-s ac-s gap-50 width-100" data-aos="fade-up">
-                <div class="admin__card grid grid-row gap-25 ai-c jc-sb width-100">
-                    <div class="grid grid-row gap-25 jc-s ai-e">
-                        <div class="admin-card__column grid grid-column gap-25 ac-s ji-s">
-                            <h3 class="h4 w-600 admin-card__title">Заказ #002</h3>
-                            <div class="admin-card__text w-200 grid grid-column gap-10">
-                            <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h6">Тип:</span>
-                                <span class="admin-card__txt2 w-400">A4</span>
-                            </span>
-                                <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h6">Дата:</span>
-                                <span class="admin-card__txt2 w-400">29.08.2024</span>
-                            </span>
-                                <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h6">Дата окончания:</span>
-                                <span class="admin-card__txt2 w-400">__.__.____</span>
-                            </span>
-                                <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h5">Стоимость:</span>
-                                <span class="admin-card__txt2 w-600 h6 color-dark">2000</span>
-                            </span>
-                            </div>
-                        </div>
-                        <div class="admin-card__column grid grid-column gap-25 ac-s ji-s">
-                            <div class="admin-card__text w-200 grid grid-column gap-10">
-                            <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h6">Кол-во:</span>
-                                <span class="admin-card__txt2 w-400">2000</span>
-                            </span>
-                            <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h6">Файл:</span>
-                                <a href="#" class="admin-card__txt2 w-400">asdas.pdf</a>
-                            </span>
-                            <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h6">Контакт:</span>
-                                <span class="admin-card__txt2 w-400">Имя +7 (999) 999 99-99</span>
-                            </span>
-                                <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h6">TG:</span>
-                                <span class="admin-card__txt2 w-400">@username</span>
-                            </span>
-                            <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h5 txt-gradient">Статус:</span>
-                                <span class="admin-card__txt2 w-600 h6 ">В процессе</span>
-                            </span>
-                            </div>
-                        </div>
-                        <div class="admin-card__column grid grid-column gap-25 ac-s ji-s">
-                            <div class="admin-card__text w-200 grid grid-column gap-10">
-                                <button class="btn-main">Принять</button>
-                                <button class="btn-white">Отклонить</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="admin-card__column grid grid-column gap-25 ac-s ji-s js-e">
-                        <div class="progress-yellow progress-circle admin-card__progress admin p0">
-                            <span>0%</span>
-                            <div class="left-half-clipper">
-                                <div class="first50-bar"></div>
-                                <div class="value-bar"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="admin__inner admin__inner_green grid grid-column ji-s ac-s gap-50 width-100" data-aos="fade-up">
-                <div class="admin__card grid grid-row gap-25 ai-c jc-sb width-100">
-                    <div class="grid grid-row gap-25 jc-s ai-e">
-                        <div class="admin-card__column grid grid-column gap-25 ac-s ji-s">
-                            <h3 class="h4 w-600 admin-card__title">Заказ #003</h3>
-                            <div class="admin-card__text w-200 grid grid-column gap-10">
-                            <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h6">Тип:</span>
-                                <span class="admin-card__txt2 w-400">A4</span>
-                            </span>
-                                <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h6">Дата:</span>
-                                <span class="admin-card__txt2 w-400">29.08.2024</span>
-                            </span>
-                                <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h6">Дата окончания:</span>
-                                <span class="admin-card__txt2 w-400">__.__.____</span>
-                            </span>
-                                <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h5">Стоимость:</span>
-                                <span class="admin-card__txt2 w-600 h6 color-dark">2000</span>
-                            </span>
-                            </div>
-                        </div>
-                        <div class="admin-card__column grid grid-column gap-25 ac-s ji-s">
-                            <div class="admin-card__text w-200 grid grid-column gap-10">
-                            <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h6">Кол-во:</span>
-                                <span class="admin-card__txt2 w-400">2000</span>
-                            </span>
-                            <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h6">Файл:</span>
-                                <a href="#" class="admin-card__txt2 w-400">asdas.pdf</a>
-                            </span>
-                            <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h6">Контакт:</span>
-                                <span class="admin-card__txt2 w-400">Имя +7 (999) 999 99-99</span>
-                            </span> <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h6">TG:</span>
-                                <span class="admin-card__txt2 w-400">@username</span>
-                            </span>
-                            <span class="grid grid-row gap-10 jc-s ai-c">
-                                <span class="w-600 h5 txt-gradient">Статус:</span>
-                                <span class="admin-card__txt2 w-600 h6 ">В процессе</span>
-                            </span>
-                            </div>
-                        </div>
-                        <div class="admin-card__column grid grid-column gap-25 ac-s ji-s">
-                            <div class="admin-card__text w-200 grid grid-column gap-10">
-                                <button class="btn-main">Принять</button>
-                                <button class="btn-white">Отклонить</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="admin-card__column grid grid-column gap-25 ac-s ji-s js-e">
-                        <div class="progress-circle admin-card__progress admin p100 over50 progress-green">
-                            <span>100%</span>
+                        <div :class="{'progress-red': order.status === 'Отклонено', 'progress-yellow': order.status === 'На рассмотрении', 'progress-green': order.status === 'Выполнено'}" class="progress-circle admin-card__progress admin">
+                            <span>{{ progresses[index] + '%' }}</span>
                             <div class="left-half-clipper">
                                 <div class="first50-bar"></div>
                                 <div class="value-bar"></div>
@@ -205,15 +76,113 @@
             </div>
         </div>
     </section>
+
+    <AcceptComponent
+        v-if="acceptWindowIsOpened"
+        @close="closeAcceptWindow()"
+        @update="update()"
+        :id="acceptId"
+    />
 </template>
 
 <script setup>
     import AOS from 'aos';
     import 'aos/dist/aos.css';
-    import {onMounted} from "vue";
+    import {onMounted, onUpdated, ref} from "vue";
+    import {useUserStore} from "@/stores/UserStore.js";
+    import axios from "axios";
+    import AcceptComponent from "@/components/AcceptComponent.vue";
+    let orders = ref([]);
 
-    onMounted(() => {
+    let progresses = ref([]);
+
+    let user = useUserStore();
+
+    let acceptWindowIsOpened = ref(false);
+    let acceptId = ref(0);
+
+    const update = () => {
+        let i = 0
+
+        axios.get('http://localhost:3000/api/order/').then(res => {
+            orders.value = res.data['orders'];
+            orders.value.forEach(order => {
+                let now = 0;
+                if(order.status === 'Выполнено'){
+                    now = 100;
+                }
+                else if(order.status === 'Отклонено' || order.status === 'На рассмотрении'){
+                    now = 0;
+                }
+                else if(order.date_end){
+                    console.log(new Date(order.date));
+                    let full = 100 / ((new Date(order.date_end) - new Date(order.date)) / 1000 / 60 / 60);
+                    now = String(Math.abs(full * ((new Date(order.date_end) - new Date()) / 1000 / 60 / 60) - 100)).split('.')[0];
+                    if(now > 100) now = 100;
+                    if(now < 0) now = 0;
+                }
+                progresses.value.push(now);
+            });
+
+            document.querySelectorAll('.progress-circle').forEach(el => {
+                el.classList.add('p' + progresses.value[i]);
+                if(progresses.value[i] >= 50){
+                    el.classList.add('over50');
+                }
+                i++;
+            });
+        });
+    };
+
+    const openAcceptWindow = (id) => {
+        acceptWindowIsOpened.value = true;
+        document.body.style.overflowY = 'hidden';
+        acceptId.value = id;
+    };
+    const deleteOrder = (id) => {
+        axios.delete("http://localhost:3000/api/order/" + id).then(res=>{
+            update();
+        });
+    }
+    const closeAcceptWindow = () => {
+        acceptWindowIsOpened.value = false;
+        document.body.style.overflowY = '';
+    };
+
+    axios.get('http://localhost:3000/api/order/').then(res => {
+        orders.value = res.data['orders'];
+        orders.value.forEach(order => {
+            console.log(order.date_end);
+            let now = 0;
+            if(order.status === 'Выполнено'){
+                now = 100;
+            }
+            else if(order.status === 'Отклонено' || order.status === 'На рассмотрении'){
+                now = 0;
+            }
+            else if(order.date_end){
+                console.log(new Date(order.date));
+                let full = 100 / ((new Date(order.date_end) - new Date(order.date)) / 1000 / 60 / 60);
+                now = String(Math.abs(full * ((new Date(order.date_end) - new Date()) / 1000 / 60 / 60) - 100)).split('.')[0];
+                if(now > 100) now = 100;
+                if(now < 0) now = 0;
+            }
+            progresses.value.push(now);
+        });
+    });
+
+    onUpdated(() => {
         AOS.init();
+
+        let i = 0;
+
+        document.querySelectorAll('.progress-circle').forEach(el => {
+            el.classList.add('p' + progresses.value[i]);
+            if(progresses.value[i] >= 50){
+                el.classList.add('over50');
+            }
+            i++;
+        });
     });
 </script>
 

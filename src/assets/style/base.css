@@ -386,3 +386,40 @@ header{
 .swiper-pagination{
     bottom: 5px !important;
 }
+/* Media */
+@media(max-width: 1480px){
+    :root{
+        --h1: 54px;
+        --h2: 48px;
+        --h3: 36px;
+        --h4: 28px;
+        --h5: 24px;
+        --h6: 22px;
+        --h7: 16px;
+        --defaultFont: 18px;
+    }
+    .section{
+        padding: 70px 0;
+    }
+    .container{
+        padding: 0 7%;
+    }
+}
+@media(max-width: 1024px){
+    :root{
+        --h1: 48px;
+        --h2: 48px;
+        --h3: 36px;
+        --h4: 26px;
+        --h5: 24px;
+        --h6: 22px;
+        --h7: 16px;
+        --defaultFont: 16px;
+    }
+    .section{
+        padding: 70px 0;
+    }
+    .container{
+        padding: 0 7%;
+    }
+}

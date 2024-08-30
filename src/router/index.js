@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import MainView from "@/views/MainView.vue";
+import {useUserStore} from "@/stores/UserStore.js";
 
 const router = createRouter({
   scrollBehavior(to) {
@@ -39,6 +40,24 @@ const router = createRouter({
       component: () => import('@/views/ProfileView.vue')
     }
   ]
+});
+
+
+router.beforeEach((to, from, next) => {
+  document.body.style.overflowY = '';
+  let user = useUserStore();
+  if(!user.tried){
+    setTimeout(()=>{
+      if(((to.name === 'login' || to.name === 'register') && user.user_data.is_auth) || ((to.name === 'admin') && !user.user_data.is_admin)) next({ name: 'home' })
+      else if((to.name === 'profile' || to.name === 'order') && !user.user_data.is_auth) next({ name: 'login' })
+      else next()
+    }, 100);
+  }
+  else{
+    if(((to.name === 'login' || to.name === 'register') && user.user_data.is_auth) || ((to.name === 'admin') && !user.user_data.is_admin)) next({ name: 'home' })
+    else if((to.name === 'profile' || to.name === 'order') && !user.user_data.is_auth) next({ name: 'login' })
+    else next()
+  }
 })
 
 export default router
