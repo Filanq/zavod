@@ -257,17 +257,6 @@ app.patch("/api/order/:id", function(req, res){
         return res.json({'success': true});
     });
 });
-app.get('/*', (req, res) => {
-    console.log(path.join(__dirname + '/../dist/'));
-    fs.exists(path.join(__dirname + '/../dist/') + req.url, (e) => {
-        if(e){
-            res.sendFile(req.url, {root: __dirname + '/../dist'});
-        }
-        else{
-            res.sendFile('index.html', {root: __dirname + '/../dist'});
-        }
-    });
-});
 
 // Listen App
 app.listen(3000);

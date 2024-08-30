@@ -44,7 +44,7 @@
     let user = useUserStore();
 
     const registerUser = () => {
-        axios.post(window.origin + '/api/register', {
+        axios.post('http://localhost:3000/api/register', {
             firstname: data.firstname.value,
             lastname: data.lastname.value,
             email: data.email.value,

@@ -66,7 +66,7 @@
     let user = useUserStore();
 
     const sendOrder = () => {
-        axios.post(window.origin + '/api/order', {
+        axios.post('http://localhost:3000/api/order', {
             count: data.count.value,
             tel: data.tel.value,
             tg: data.tg.value,

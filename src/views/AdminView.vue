@@ -104,7 +104,7 @@
     const update = () => {
         let i = 0
 
-        axios.get(window.origin + '/api/order/').then(res => {
+        axios.get('http://localhost:3000/api/order/').then(res => {
             orders.value = res.data['orders'];
             orders.value.forEach(order => {
                 let now = 0;
@@ -140,7 +140,7 @@
         acceptId.value = id;
     };
     const deleteOrder = (id) => {
-        axios.delete(window.origin + "/api/order/" + id).then(res=>{
+        axios.delete("http://localhost:3000/api/order/" + id).then(res=>{
             update();
         });
     }
@@ -149,7 +149,7 @@
         document.body.style.overflowY = '';
     };
 
-    axios.get(window.origin + '/api/order/').then(res => {
+    axios.get('http://localhost:3000/api/order/').then(res => {
         orders.value = res.data['orders'];
         orders.value.forEach(order => {
             console.log(order.date_end);

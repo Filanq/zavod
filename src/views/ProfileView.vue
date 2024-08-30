@@ -82,7 +82,7 @@
 
     let user = useUserStore();
 
-    axios.get(window.origin + '/api/order/' + user.user_data.id).then(res => {
+    axios.get('http://localhost:3000/api/order/' + user.user_data.id).then(res => {
         orders.value = res.data['orders'];
         orders.value.forEach(order => {
             let now = 0;

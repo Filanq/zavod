@@ -367,7 +367,7 @@
             padding: 10px 25px;
         }
         .banner__section{
-            background-size: 12 0%;
+            background-size: 120%;
         }
     }
 </style>
