@@ -40,7 +40,7 @@
                             </span>
                                 <span class="grid grid-row gap-10 jc-s ai-c">
                                 <span class="w-600 h6">Файл:</span>
-                                <a :href="order.path" target="_blank" class="admin-card__txt2 w-400">{{ order.path.split(`\\`)[order.path.split(`\\`).length - 1] }}</a>
+                                <a :href="order.path.split('/usr/src/app/dist')[1]" target="_blank" class="admin-card__txt2 w-400">{{ order.path.split(`/`)[order.path.split(`/`).length - 1] }}</a>
                             </span>
                                 <span class="grid grid-row gap-10 jc-s ai-c">
                                 <span class="w-600 h6">Контакт:</span>
@@ -104,7 +104,7 @@
     const update = () => {
         let i = 0
 
-        axios.get('http://localhost:3000/api/order/').then(res => {
+        axios.get(window.origin + '/api/order/').then(res => {
             orders.value = res.data['orders'];
             orders.value.forEach(order => {
                 let now = 0;
@@ -140,7 +140,7 @@
         acceptId.value = id;
     };
     const deleteOrder = (id) => {
-        axios.delete("http://localhost:3000/api/order/" + id).then(res=>{
+        axios.delete(window.origin + "/api/order/" + id).then(res=>{
             update();
         });
     }
@@ -149,7 +149,7 @@
         document.body.style.overflowY = '';
     };
 
-    axios.get('http://localhost:3000/api/order/').then(res => {
+    axios.get(window.origin + '/api/order/').then(res => {
         orders.value = res.data['orders'];
         orders.value.forEach(order => {
             console.log(order.date_end);

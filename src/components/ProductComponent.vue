@@ -11,7 +11,7 @@
     // })
     defineProps(["title", "price", "description", "options1", "options2", "imgsrc, id"])
     defineEmits(["showDetails"])
-    const showDetails = ref(false); 
+    const showDetails = ref(false);
 </script>
 
 <template>

@@ -43,7 +43,7 @@
                             </span>
                             <span class="grid grid-row gap-10 jc-s ai-c">
                                 <span class="w-600 h6">Файл:</span>
-                                <a :href="order.path" target="_blank" class="admin-card__txt2 w-400">{{ order.path.split(`\\`)[order.path.split(`\\`).length - 1] }}</a>
+                                <a :href="order.path.split('/usr/src/app/dist')[1]" target="_blank" class="admin-card__txt2 w-400">{{ order.path.split(`/`)[order.path.split(`/`).length - 1] }}</a>
                             </span>
                             <span class="grid grid-row gap-10 jc-s ai-c">
                                 <span class="w-600 h5 txt-gradient">Статус:</span>
@@ -82,7 +82,7 @@
 
     let user = useUserStore();
 
-    axios.get('http://localhost:3000/api/order/' + user.user_data.id).then(res => {
+    axios.get(window.origin + '/api/order/' + user.user_data.id).then(res => {
         orders.value = res.data['orders'];
         orders.value.forEach(order => {
             let now = 0;

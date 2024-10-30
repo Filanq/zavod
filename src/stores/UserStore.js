@@ -42,7 +42,7 @@ export const useUserStore = defineStore('userStore', () => {
     }
 
     function login() {
-        axios.post('http://localhost:3000/api/is_auth', {
+        axios.post(window.origin + '/api/is_auth', {
             token: getCookie('token')
         }).then(data => {
             if(data.data['is_auth']){

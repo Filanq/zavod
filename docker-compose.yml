@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  server:
+    build: ./
+    command: node server/index.cjs
+    ports:
+      - '80:80'
+    depends_on:
+      - db
+    volumes:
+      - .:/usr/src/app
+  db:
+    image: mysql:5
+    restart: always
+    volumes:
+      - ./db-data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: 'zavod'
+      MYSQL_USER: 'zavod_u'
+      MYSQL_PASSWORD: 'Ujkjdjkjvrf'
+      MYSQL_ROOT_PASSWORD: 'Ujkjdjkjvrf'
+    ports:
+      - '3306:3306'

@@ -25,7 +25,7 @@
     const accept = () => {
         console.log(date.value);
         if(date.value.trim()){
-            axios.put('http://localhost:3000/api/order/' + props.id, {
+            axios.put(window.origin + '/api/order/' + props.id, {
                 date: date.value
             }).then(res => {
                 if(res.data.success){

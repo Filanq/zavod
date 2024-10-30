@@ -14,11 +14,10 @@ const fs = require('fs');
 
 const sessionStore = new MySQLStore({}, sql);
 
-const corsOption = {
-    origin: ['http://localhost:5173'],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-}
+// const corsOption = {
+//     credentials: true,
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+// }
 
 const upload = multer({
     dest: path.join(__dirname, "../dist/img/files")
@@ -39,7 +38,7 @@ app.use(
         store: sessionStore
     })
 );
-app.use(cors(corsOption));
+// app.use(cors(corsOption));
 
 function sql_query(query, options, cb){
     sql.query(query, options, (err, res)=>{
@@ -195,8 +194,11 @@ app.post("/api/order", upload.single("file"), function(req, res){
             if(resp[0]){
                 name = resp[0].firstname
                 const tempPath = req.file.path;
-                const targetPath = path.join(__dirname, "../public/img/files/" + String(Math.round(Math.random() * 9999999)) + path.extname(req.file.originalname).toLowerCase());
+                const targetPath = path.join(__dirname, "../dist/img/files/" + String(Math.round(Math.random() * 9999999)) + path.extname(req.file.originalname).toLowerCase());
                 fs.rename(tempPath, targetPath, err => {
+                    console.log(err);
+                });
+                fs.copyFile(targetPath, path.join(__dirname, "../public/img/files/" + targetPath.split('/img/files/')[1]), (err) => {
                     console.log(err);
                 });
 
@@ -258,5 +260,39 @@ app.patch("/api/order/:id", function(req, res){
     });
 });
 
+
+app.get('/login', (req, res) => {
+    res.sendFile('index.html', {root: __dirname + '/../dist'});
+});
+
+app.get('/order', (req, res) => {
+    res.sendFile('index.html', {root: __dirname + '/../dist'});
+});
+
+app.get('/admin', (req, res) => {
+    res.sendFile('index.html', {root: __dirname + '/../dist'});
+});
+
+app.get('/register', (req, res) => {
+    res.sendFile('index.html', {root: __dirname + '/../dist'});
+});
+
+app.get('/profile', (req, res) => {
+    res.sendFile('index.html', {root: __dirname + '/../dist'});
+});
+
+
+app.get('/*', (req, res) => {
+    fs.exists(__dirname + '/../dist' + req.url, (e) => {
+        if(e){
+            res.sendFile(req.url, {root: __dirname + '/../dist'});
+        }
+        else{
+            res.send('404');
+        }
+    });
+});
+
+
 // Listen App
-app.listen(3000);
+app.listen(80);
